@@ -1,10 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool possivel (const vector<long long> &alturas, long long altura_corte, long long m) {
+bool possivel (const vector<long long> &alturas, long long altura_corte, long long m, int n) {
     long long madeiras_coletadas = 0;
 
-    for (int i = 0; i < alturas.size(); i++) {
+    for (int i = 0; i < n; i++) {
         if (alturas[i] > altura_corte) {
             madeiras_coletadas += alturas[i] - altura_corte;
         }
@@ -37,7 +37,7 @@ int main() {
     while (esq <= dir) {
         meio = (esq + dir) / 2;
 
-        if(possivel(alturas, meio, m)) {
+        if(possivel(alturas, meio, m, n)) {
             resp = meio;
             esq = meio + 1;
         } else {
