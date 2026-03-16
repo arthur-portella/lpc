@@ -23,12 +23,13 @@ int main() {
     cin.tie(NULL);
 
     long long t;
-
-    vector<long long> posicoes;
+    cin >> t;
 
     for (int i = 0; i < t; i++) {
         int n, c;
         cin >> n >> c;
+
+        vector<long long> posicoes;
 
         for (int j = 0; j < n; j++) {
             long long aux;
@@ -38,7 +39,7 @@ int main() {
 
         sort(posicoes.begin(), posicoes.end());
 
-        long long esq = 0, dir = 1e9, meio, resp;
+        long long esq = 0, dir = posicoes[n-1] - posicoes[0], meio, resp = 0;
 
         while (esq <= dir) {
             meio = (esq + dir) / 2;
