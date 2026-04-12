@@ -8,38 +8,21 @@ int main() {
     int n;
     cin >> n;
     
-    deque<long long> d(n);
+    vector<long long> d(n);
     for (int i = 0; i < n; i++)
         cin >> d[i];
 
-    long long taro = 0, jiro = 0;
+    vector<vector<long long>> dp(n, vector<long long>(n));
 
-    while (!d.empty()) {
-        long long inicio, fim;
-        inicio = d.front();
-        fim = d.back();
-
-        if (inicio >= fim) {
-            taro += inicio;
-            d.pop_front();
-        } else {
-            taro += fim;
-            d.pop_back();
-        }
-
-        if (!d.empty()) {
-            inicio = d.front();
-            fim = d.back();
-
-            if (inicio >= fim) {
-                jiro += inicio;
-                d.pop_front();
-            } else {
-                jiro += fim;
-                d.pop_back();
-            }
-        }
+    for (int i = 0; i < n; i++) {
+        dp[i][i] = d[i];
     }
 
-    cout << taro - jiro << "\n";
+    for (int tamanho = 2; tamanho <= n; tamanho++) 
+        for (int i = 0; i <= n - tamanho; i++) {
+            int j = i + tamanho - 1;
+            dp[i][j] = max(d[i] - dp[i + 1][j], d[j] - dp[i][j - 1]);
+        }
+
+    cout << dp[0][n - 1] << "\n";
 }
