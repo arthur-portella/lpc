@@ -1,37 +1,77 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+long long gcd(long long a, long long b) {
+    while (b != 0) {
+        long long resto = a % b;
+        a = b;
+        b = resto;
+    }
+
+    return a;
+}
+
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int N, A, B;
-    cin >> N >> A >> B;
+    int t;
+    cin >> t;
 
-    vector<long double> dp(N + 1);
-    vector<long double> pref(N + 1);
+    while (t--) {
 
-    int qtd = B - A + 1;
+        int n;
+        cin >> n;
 
-    dp[0] = 0;
-    pref[0] = 0;
+        vector<int> a(n);
 
-    for (int i = 1; i <= N; i++) {
-        int l = max(0, i - B);
-        int r = i - A;
+        int g_total = 0;
 
-        long double soma = 0;
-
-        if (l <= r) {
-            soma = pref[r];
-
-            if (l > 0)
-                soma -= pref[l - 1];
+        for (int i = 0; i < n; i++) {
+            cin >> a[i];
+            g_total = gcd(g_total, a[i]);
         }
 
-        dp[i] = 1.0L + soma / qtd;
+        int quantidade = 0;
 
-        pref[i] = pref[i - 1] + dp[i];
+        for (int x : a) {
+            if (x == g_total)
+                quantidade++;
+        }
+
+        if (quantidade > 0) {
+            cout << n - quantidade << '\n';
+            continue;
+        }
+
+        const int INF = 1e9;
+
+        vector<int> dp(5001, INF);
+
+        for (int x : a) {
+
+            vector<int> novo = dp;
+
+            novo[x] = min(novo[x], 1);
+
+            for (int g = 1; g <= 5000; g++) {
+
+                if (dp[g] != INF) {
+
+                    int novo_g = gcd(g, x);
+
+                    novo[novo_g] = min(
+                        novo[novo_g],
+                        dp[g] + 1
+                    );
+                }
+            }
+
+            dp = novo;
+        }
+
+        int min_len = dp[g_total];
+
+        cout << (min_len - 1) + (n - 1) << '\n';
     }
-    cout << fixed << setprecision(5) << (double)dp[N] << '\n';
 }

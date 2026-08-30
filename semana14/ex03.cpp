@@ -9,23 +9,12 @@ int main() {
     cin >> t;
 
     while (t--) {
-        long long n;
-        cin >> n;
+        long long l, r;
+        cin >> l >> r;
 
-        long long l = 1;
-        long long r = 2000000000LL;
-
-        while (l < r) {
-            long long m = (l + r) / 2;
-
-            __int128 tipos = (__int128)m * (m - 1) / 2 + 1;
-
-            if (tipos >= n)
-                r = m;
-            else
-                l = m + 1;
-        }
-
-        cout << l << '\n';
+        if (2 * l <= r)
+            cout << l << " " << 2 * l << "\n";
+        else
+            cout << -1 << " " << -1 << "\n";
     }
 }

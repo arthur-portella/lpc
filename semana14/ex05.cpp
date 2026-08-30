@@ -1,6 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+long long gcd(long long a, long long b) {
+    while (b != 0) {
+        long long resto = a % b;
+        a = b;
+        b = resto;
+    }
+
+    return a;
+}
+
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
@@ -9,37 +19,15 @@ int main() {
     cin >> t;
 
     while (t--) {
-        int n;
-        cin >> n;
+        long long r, b, k, maior, menor;
+        cin >> r >> b >> k;
 
-        vector<int> a(n);
+        maior = max(r, b);
+        menor = min(r, b);
 
-        for (int i = 0; i < n; i++)
-            cin >> a[i];
-
-        map<pair<int, int>, long long> mapa12;
-        map<pair<int, int>, long long> mapa13;
-        map<pair<int, int>, long long> mapa23;
-        map<tuple<int, int, int>, long long> mapa123;
-
-        long long ans = 0;
-
-        for (int i = 0; i < n - 2; i++) {
-            int x = a[i];
-            int y = a[i + 1];
-            int z = a[i + 2];
-
-            ans += mapa12[{x, y}];
-            ans += mapa13[{x, z}];
-            ans += mapa23[{y, z}];
-
-            ans -= 3 * mapa123[{x, y, z}];
-
-            mapa12[{x, y}]++;
-            mapa13[{x, z}]++;
-            mapa23[{y, z}]++;
-            mapa123[{x, y, z}]++;
-        }
-        cout << ans << '\n';
+        if ((maior - 1 - gcd(r, b)) / menor + 1>= k)
+            cout << "REBEL\n";
+        else
+            cout << "OBEY\n";
     }
 }
